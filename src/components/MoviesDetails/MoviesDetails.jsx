@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams, Link, Outlet } from 'react-router-dom';
+import { BackButton } from 'components/BackButton/BackButton';
 import * as movieAPI from 'services/movieAPI';
 
 export const MoviesDetails = () => {
@@ -38,7 +39,8 @@ export const MoviesDetails = () => {
   // console.log(details);
   // console.log(details.genres);
   return (
-    <>
+    <>  
+    <BackButton />
       <div>
         <img
           width="400px"

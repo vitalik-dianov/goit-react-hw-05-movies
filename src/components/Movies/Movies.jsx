@@ -48,10 +48,15 @@ export const Movies = () => {
 
       <ul>
         {found.map(film => {
-          console.log(film);
+        //   console.log(film);
           return (
             <li key={film.id}>
-              <Link to={`/movies/${film.id}`}  >{film.title}</Link>
+              <Link
+                to={`/movies/${film.id}`}
+                state={{ from: `movies?query=${searchParams.get('query')}` }}
+              >
+                {film.title}
+              </Link>
             </li>
           );
         })}
