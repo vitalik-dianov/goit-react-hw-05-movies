@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import * as movieAPI from 'services/movieAPI';
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
 
   const [reviews, setReviews] = useState([]);
@@ -15,7 +15,6 @@ export const Reviews = () => {
         if (!data) {
           return;
         }
-        // console.log(data);
         setReviews(data.results);
       };
 
@@ -24,7 +23,6 @@ export const Reviews = () => {
       console.log(error);
     }
   }, [movieId]);
-//   console.log(reviews);
   return (
     <>
       <h3>Reviews</h3>
@@ -41,3 +39,4 @@ export const Reviews = () => {
     </>
   );
 };
+export default Reviews;

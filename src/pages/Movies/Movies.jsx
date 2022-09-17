@@ -1,11 +1,10 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as movieAPI from 'services/movieAPI';
 
-export const Movies = () => {
-  //   const [query, setQuery] = useState('');
+const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [found, setFound] = useState([]);
   const {
@@ -13,9 +12,8 @@ export const Movies = () => {
     register,
     formState: { errors },
   } = useForm();
-
+  const location = useLocation();
   const onSubmit = ({ inputQuery }) => setSearchParams({ query: inputQuery });
-  //   console.log(query);
   useEffect(() => {
     if (!searchParams.get('query')) {
       return;
@@ -26,7 +24,6 @@ export const Movies = () => {
         if (!data) {
           return;
         }
-        // console.log(data);
         setFound(data);
       };
       fetchOnQuery();
@@ -48,12 +45,11 @@ export const Movies = () => {
 
       <ul>
         {found.map(film => {
-        //   console.log(film);
           return (
             <li key={film.id}>
               <Link
                 to={`/movies/${film.id}`}
-                state={{ from: `movies?query=${searchParams.get('query')}` }}
+                state={{ from: `${location.pathname}${location.search}` }}
               >
                 {film.title}
               </Link>
@@ -64,3 +60,4 @@ export const Movies = () => {
     </>
   );
 };
+export default Movies;

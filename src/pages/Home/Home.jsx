@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import * as movieAPI from 'services/movieAPI';
+
 export const Home = () => {
   const [trends, setTrends] = useState([]);
 
@@ -13,10 +14,9 @@ export const Home = () => {
           return;
         }
 
-        setTrends(data)
+        setTrends(data);
       };
       fetchTrends();
-      // console.log(trends);
     } catch (error) {
       console.log(error);
     }
@@ -25,16 +25,14 @@ export const Home = () => {
   return (
     <div>
       <h1>Trending Films</h1>
-      
+
       <ul>
         {trends.map(film => {
-            // console.log(film);
-            return (
-                <li key={film.id}>
-                    <Link to={`/movies/${film.id}`}>{film.title}</Link>
-                    
-                </li>
-            )
+          return (
+            <li key={film.id}>
+              <Link to={`/movies/${film.id}`}>{film.title}</Link>
+            </li>
+          );
         })}
       </ul>
     </div>

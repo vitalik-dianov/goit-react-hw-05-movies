@@ -4,12 +4,11 @@ import { useParams, Link, Outlet } from 'react-router-dom';
 import { BackButton } from 'components/BackButton/BackButton';
 import * as movieAPI from 'services/movieAPI';
 
-export const MoviesDetails = () => {
+const MoviesDetails = () => {
   const [details, setDetails] = useState();
   const { movieId } = useParams();
 
   useEffect(() => {
-    
     try {
       const fetchDetails = async () => {
         const data = await movieAPI.getDetails(movieId);
@@ -18,7 +17,6 @@ export const MoviesDetails = () => {
         }
         setDetails(data);
       };
-
       fetchDetails();
     } catch (error) {
       console.log(error);
@@ -27,20 +25,17 @@ export const MoviesDetails = () => {
 
   const genresToString = ({ genres }) => {
     if (genres) {
-      // console.log(genres);
       return genres.map(genre => genre.name);
     }
     return [];
   };
 
-  if(!details) {
-    return
+  if (!details) {
+    return;
   }
-  // console.log(details);
-  // console.log(details.genres);
   return (
-    <>  
-    <BackButton />
+    <>
+      <BackButton />
       <div>
         <img
           width="400px"
@@ -48,7 +43,9 @@ export const MoviesDetails = () => {
           src={`https://image.tmdb.org/t/p/original/${details.poster_path}`}
           alt=""
         />
-        <h2>{details.title} <span>{`(${details.release_date.slice(0, 4)})`}</span></h2>
+        <h2>
+          {details.title} <span>{`(${details.release_date.slice(0, 4)})`}</span>
+        </h2>
         <p>User score: {details.vote_average.toFixed(1) * 10}%</p>
         <h3>Overview</h3>
         <p>{details.overview}</p>
@@ -65,9 +62,9 @@ export const MoviesDetails = () => {
             <Link to="reviews">Reviews</Link>
           </li>
         </ul>
-
         <Outlet />
       </div>
     </>
   );
 };
+export default MoviesDetails;
