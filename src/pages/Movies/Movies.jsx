@@ -1,8 +1,19 @@
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import * as movieAPI from 'services/movieAPI';
+import { Box } from 'services/Box';
+import {
+  FilmImage,
+  FilmItem,
+  FilmLink,
+  FilmList,
+  FilmTitle,
+  SearchBtn,
+  SearchForm,
+  SearchInput,
+} from './Movies.styled';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,31 +44,35 @@ const Movies = () => {
   }, [searchParams]);
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
+    <Box minWidth={8} maxWidth={10} pb={4} pl={7} pr={7} mr="auto" ml="auto">
+      <SearchForm onSubmit={handleSubmit(onSubmit)}>
+        <SearchInput
           {...register('inputQuery', { required: true })}
           defaultValue=""
         />
         {errors.inputQuery && <span>This field is required</span>}
-        <input type="submit" />
-      </form>
+        <SearchBtn type="submit" value="SEARCH" />
+      </SearchForm>
 
-      <ul>
+      <FilmList>
         {found.map(film => {
           return (
-            <li key={film.id}>
-              <Link
+            <FilmItem key={film.id}>
+              <FilmLink
                 to={`/movies/${film.id}`}
                 state={{ from: `${location.pathname}${location.search}` }}
               >
-                {film.title}
-              </Link>
-            </li>
+                <FilmImage
+                  src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
+                  alt=""
+                />
+                <FilmTitle>{film.title}</FilmTitle>
+              </FilmLink>
+            </FilmItem>
           );
         })}
-      </ul>
-    </>
+      </FilmList>
+    </Box>
   );
 };
 export default Movies;

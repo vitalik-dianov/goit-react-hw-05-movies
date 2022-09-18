@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BackBtn } from './BackButton.styled';
 
-export const BackButton = () => {
+export const BackButton = ({ children }) => {
   const navigateBack = useNavigate();
   const location = useLocation();
   const [backHref, setBackHref] = useState('');
-  // setQueryHref(location.state?.from)
   useEffect(() => {
     if (location.state?.from === backHref) {
       return;
@@ -15,14 +15,12 @@ export const BackButton = () => {
       setBackHref(location.state?.from);
     } else setBackHref('/');
   }, [backHref, location.state?.from]);
-  // console.log(backHref);
-
   const handleClick = () => {
     navigateBack(`/${backHref}`);
   };
   return (
-    <button type="button" onClick={handleClick}>
-      Go Back
-    </button>
+    <BackBtn type="button" onClick={handleClick}>
+      {children}
+    </BackBtn>
   );
 };

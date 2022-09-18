@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as movieAPI from 'services/movieAPI';
+import { CastList, CharacterName } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
-
   const [credits, setCredits] = useState([]);
   useEffect(() => {
     try {
@@ -25,22 +25,22 @@ const Cast = () => {
   }, [movieId]);
   return (
     <>
-      <h3>Cast</h3>
-      <ul>
+      <CastList>
         {credits.map(credit => {
           return (
             <li key={credit.credit_id}>
               <img
-                width="100px"
+                width="150px"
                 src={`https://image.tmdb.org/t/p/original/${credit.profile_path}`}
                 alt=""
               />
               <p>{credit.name}</p>
-              <p>Character: {credit.character}</p>
+              <p>Character:</p>
+              <CharacterName>{credit.character}</CharacterName>
             </li>
           );
         })}
-      </ul>
+      </CastList>
     </>
   );
 };

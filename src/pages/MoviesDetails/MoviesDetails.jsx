@@ -1,8 +1,17 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
-import { BackButton } from 'components/BackButton/BackButton';
+import { useParams, Outlet } from 'react-router-dom';
 import * as movieAPI from 'services/movieAPI';
+import { Box } from 'services/Box';
+import { theme } from '../../theme';
+import { IconContext } from 'react-icons';
+import { IoChevronBackCircleOutline } from 'react-icons/io5';
+import { BackButton } from 'components/BackButton/BackButton';
+import {
+  AdditionalLink,
+  LinkList,
+  Main,
+} from 'pages/MoviesDetails/MovieDetails.styled';
 
 const MoviesDetails = () => {
   const [details, setDetails] = useState();
@@ -34,37 +43,46 @@ const MoviesDetails = () => {
     return;
   }
   return (
-    <>
-      <BackButton />
-      <div>
-        <img
-          width="400px"
-          height="500px"
-          src={`https://image.tmdb.org/t/p/original/${details.poster_path}`}
-          alt=""
-        />
-        <h2>
-          {details.title} <span>{`(${details.release_date.slice(0, 4)})`}</span>
-        </h2>
-        <p>User score: {details.vote_average.toFixed(1) * 10}%</p>
-        <h3>Overview</h3>
-        <p>{details.overview}</p>
-        <h3>Genres</h3>
-        <p>{genresToString(details).join(', ')}</p>
-      </div>
-      <div>
-        <h2>Additional info</h2>
-        <ul>
+    <Main>
+      <Box minWidth={8} maxWidth={10} pl={7} pr={7} ml="auto" mr="auto">
+        <Box display="flex" gridGap={5}>
+          <IconContext.Provider
+            value={{ size: '50px', color: theme.colors.backgroundGray }}
+          >
+            <BackButton>
+              <IoChevronBackCircleOutline />
+            </BackButton>
+          </IconContext.Provider>
+          <img
+            width="400px"
+            height="500px"
+            src={`https://image.tmdb.org/t/p/original/${details.poster_path}`}
+            alt=""
+          />
+          <Box>
+            <h2>
+              {details.title}{' '}
+              <span>{`(${details.release_date.slice(0, 4)})`}</span>
+            </h2>
+            <p>User score: {details.vote_average.toFixed(1) * 10}%</p>
+            <h3>Overview</h3>
+            <p>{details.overview}</p>
+            <h3>Genres</h3>
+            <p>{genresToString(details).join(', ')}</p>
+          </Box>
+        </Box>
+
+        <LinkList>
           <li>
-            <Link to="cast">Cast</Link>
+            <AdditionalLink to="cast">Cast</AdditionalLink>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <AdditionalLink to="reviews">Reviews</AdditionalLink>
           </li>
-        </ul>
+        </LinkList>
         <Outlet />
-      </div>
-    </>
+      </Box>
+    </Main>
   );
 };
 export default MoviesDetails;

@@ -1,7 +1,16 @@
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import * as movieAPI from 'services/movieAPI';
+import { Box } from 'services/Box';
+import {
+  FilmImage,
+  FilmItem,
+  FilmLink,
+  FilmList,
+  FilmTitle,
+  Main,
+  Title,
+} from './Home.styled';
 
 export const Home = () => {
   const [trends, setTrends] = useState([]);
@@ -23,18 +32,26 @@ export const Home = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Trending Films</h1>
+    <Main>
+      <Box minWidth={8} maxWidth={10} pb={4} pl={7} pr={7} mr="auto" ml="auto">
+        <Title>Trending Films</Title>
 
-      <ul>
-        {trends.map(film => {
-          return (
-            <li key={film.id}>
-              <Link to={`/movies/${film.id}`}>{film.title}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+        <FilmList>
+          {trends.map(film => {
+            return (
+              <FilmItem key={film.id}>
+                <FilmLink to={`/movies/${film.id}`}>
+                  <FilmImage
+                    src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
+                    alt=""
+                  />
+                  <FilmTitle>{film.title}</FilmTitle>
+                </FilmLink>
+              </FilmItem>
+            );
+          })}
+        </FilmList>
+      </Box>
+    </Main>
   );
 };
